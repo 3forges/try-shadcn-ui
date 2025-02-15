@@ -46,7 +46,7 @@ EOF
 # -
 # 
 cat <<EOF >./src/index.header.css
-@import "tailwindcss/preflight"; @tailwind utilities; 
+@import "tailwindcss";
 EOF
 cp ./src/index.css ./src/index.original.css
 rm ./src/index.css
@@ -55,7 +55,8 @@ cat ./src/index.original.css | tee -a ./src/index.css
 
 # ---
 # I aso fixed a few compilation errors in
-# the [tsconfig.app.json] :
+# the [tsconfig.app.json], and added the required 
+# compiler options, as instructed at https://ui.shadcn.com/docs/installation/vite :
 cat <<EOF >./tsconfig.app.json
 {
   "compilerOptions": {
@@ -93,6 +94,27 @@ cat <<EOF >./tsconfig.app.json
 
 EOF
 
+# ---
+# There are also the same compiler options to
+# add in the [tsconfig.json]:
+# -
+# 
+cat <<EOF >tsconfig.json
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+EOF
+
 pnpm add -D @types/node
 
 cat <<EOF >./vite.config.ts
@@ -117,6 +139,17 @@ EOF
 
 pnpm i 
 pnpm dev
+
+```
+
+Then I add shadcn:
+
+```bash
+# ---
+# I used canary release of shadcn to get
+# tailwindcss v4 support, see https://github.com/shadcn-ui/ui/issues/4677#issuecomment-2656785278
+# pnpm dlx shadcn@latest init
+pnpm dlx shadcn@canary init
 
 ```
 
