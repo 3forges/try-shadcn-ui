@@ -28,6 +28,8 @@ $ pnpm dlx tailwindcss init -p
 
 ```
 
+That, because obviously, mgicui components don't work with the setup of shadcnui with tailwindcss 4.
+
 ```bash
 pnpm create vite@latest
 # then I chose:
