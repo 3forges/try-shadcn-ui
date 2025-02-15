@@ -2,32 +2,6 @@
 
 ## With vite
 
-I am searching the latest release of tailwindcss which has a binry, for now I have not found, I tried all releases between `3.4.17`, down to `3.4.10` included:
-
-```bash
-$ export LATEST_3_RELEASE_OF_TAILWDCSS='3.4.10'
-$ pnpm add -D tailwindcss@${LATEST_3_RELEASE_OF_TAILWDCSS} postcss autoprefixer
-Progress: resolved 1, reused 0, downloaded 0, added 0
-Progress: resolved 167, reused 123, downloaded 0, added 0
-Progress: resolved 196, reused 152, downloaded 1, added 0
-Progress: resolved 248, reused 204, downloaded 1, added 0
-Packages: +98 -1
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
-Progress: resolved 249, reused 205, downloaded 1, added 2, done
-
-devDependencies:
-+ autoprefixer 10.4.20
-+ postcss 8.5.2
-+ tailwindcss 3.4.10 (4.0.6 is available)
-
-Done in 4.9s
-
-Utilisateur@Utilisateur-PC MINGW64 ~/try_shadcn-ui (feature/try/magicui)
-$ pnpm dlx tailwindcss init -p
- ERR_PNPM_DLX_NO_BIN  No binaries found in tailwindcss
-
-```
-
 ```bash
 pnpm create vite@latest
 # then I chose:
@@ -45,15 +19,7 @@ rm -fr ./pesto/
 
 # ---
 # Then I:
-# latest 3.* tailwindcss release is https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.17
-export LATEST_3_RELEASE_OF_TAILWDCSS="3.4.17"
-# I checked version [3.4.17] of
-# tailwindcss does not have a binary 
-export LATEST_3_RELEASE_OF_TAILWDCSS="3.4.17"
-pnpm remove -D tailwindcss postcss autoprefixer
-pnpm add -D tailwindcss@${LATEST_3_RELEASE_OF_TAILWDCSS} postcss autoprefixer
-
-pnpm dlx tailwindcss init -p
+pnpm add -D tailwindcss postcss autoprefixer
 
 # ---
 # There's no more tailwind binary with tailwind 4, so
