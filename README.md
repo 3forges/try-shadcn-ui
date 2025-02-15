@@ -93,6 +93,24 @@ cat <<EOF >./tsconfig.app.json
 
 EOF
 
+pnpm add -D @types/node
+
+cat <<EOF >./vite.config.ts
+import path from "path"
+import { defineConfig } from 'vite'
+import preact from '@preact/preset-vite'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [preact()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+})
+EOF
+
 # ---
 # And then I was good, the build was without 
 # warning or errors:
