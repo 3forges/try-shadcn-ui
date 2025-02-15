@@ -2,9 +2,11 @@ import { useState } from 'preact/hooks'
 import preactLogo from './assets/preact.svg'
 import viteLogo from '/vite.svg'
 import './app.css'
+import { Button as ShadCnBtn } from "@/components/ui/button"
 
 export function App() {
   const [count, setCount] = useState(0)
+  const [shadCount, setShadCount] = useState(0)
 
   return (
     <>
@@ -37,6 +39,12 @@ export function App() {
       </p>
       <p class="read-the-docs">
         Click on the Vite and Preact logos to learn more
+      </p>
+      <p>
+        <ShadCnBtn onClick={() => setShadCount((shadCount) => shadCount + 1)}>
+        This is my first shadcn-ui button
+        shadCount is {shadCount}
+        </ShadCnBtn>
       </p>
     </>
   )
