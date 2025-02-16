@@ -2,33 +2,9 @@
 
 ## With vite
 
-I am searching the latest release of tailwindcss which has a binry, for now I have not found, I tried all releases between `3.4.17`, down to `3.4.10` included:
+I am searching the latest release of tailwindcss which has a binary.
 
-```bash
-$ export LATEST_3_RELEASE_OF_TAILWDCSS='3.4.10'
-$ pnpm add -D tailwindcss@${LATEST_3_RELEASE_OF_TAILWDCSS} postcss autoprefixer
-Progress: resolved 1, reused 0, downloaded 0, added 0
-Progress: resolved 167, reused 123, downloaded 0, added 0
-Progress: resolved 196, reused 152, downloaded 1, added 0
-Progress: resolved 248, reused 204, downloaded 1, added 0
-Packages: +98 -1
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
-Progress: resolved 249, reused 205, downloaded 1, added 2, done
-
-devDependencies:
-+ autoprefixer 10.4.20
-+ postcss 8.5.2
-+ tailwindcss 3.4.10 (4.0.6 is available)
-
-Done in 4.9s
-
-Utilisateur@Utilisateur-PC MINGW64 ~/try_shadcn-ui (feature/try/magicui)
-$ pnpm dlx tailwindcss init -p
- ERR_PNPM_DLX_NO_BIN  No binaries found in tailwindcss
-
-```
-
-That, because obviously, mgicui components don't work with the setup of shadcnui with tailwindcss 4.
+That, because obviously, magicui components don't work with the setup of shadcnui with tailwindcss 4.
 
 ```bash
 pnpm create vite@latest
@@ -49,19 +25,11 @@ rm -fr ./pesto/
 # Then I:
 # latest 3.* tailwindcss release is https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.17
 export LATEST_3_RELEASE_OF_TAILWDCSS="3.4.17"
-# I checked version [3.4.17] of
-# tailwindcss does not have a binary 
-export LATEST_3_RELEASE_OF_TAILWDCSS="3.4.17"
-export LATEST_3_RELEASE_OF_TAILWDCSS="3.4.8"
-export LATEST_3_RELEASE_OF_TAILWDCSS="3.3.8"
-export LATEST_3_RELEASE_OF_TAILWDCSS="3.2.8"
-export LATEST_3_RELEASE_OF_TAILWDCSS="3.1.8"
-export LATEST_3_RELEASE_OF_TAILWDCSS="3.0.2"
-export LATEST_3_RELEASE_OF_TAILWDCSS="2.0.2"
 pnpm remove -D tailwindcss postcss autoprefixer
 pnpm add -D tailwindcss@${LATEST_3_RELEASE_OF_TAILWDCSS} postcss autoprefixer
 
-pnpm dlx tailwindcss init -p
+pnpm exec tailwindcss init -p
+# pnpm dlx tailwindcss init -p
 
 # ---
 # There's no more tailwind binary with tailwind 4, so
@@ -73,22 +41,23 @@ cat <<EOF >./tailwindcss.config.js
 export default {
     content: [
       './src/**/*.{js,jsx,ts,tsx}',
-      // 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
-    ], // <script src="./node_modules/flowbite-react/dist/flowbite.min.js"></script>
+    ], 
     theme: {
       extend: {},
     },
-    plugins: [/*require('flowbite/plugin')*/],
+    plugins: [],
   }
 EOF
 
 # ---
-# I also had to fiw the tailwind directives which
-# changed a bit with tailwind 4:
+# I also had to add the 
+# tailwind directives fit for tailwindcss 3:
 # -
 # 
 cat <<EOF >./src/index.header.css
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 EOF
 cp ./src/index.css ./src/index.original.css
 rm ./src/index.css
@@ -187,14 +156,26 @@ pnpm dev
 Then I add shadcn:
 
 ```bash
-# ---
-# I used canary release of shadcn to get
-# tailwindcss v4 support, see https://github.com/shadcn-ui/ui/issues/4677#issuecomment-2656785278
-# pnpm dlx shadcn@latest init
-pnpm dlx shadcn@canary init
+# # ---
+# # I used canary release of shadcn to get
+# # tailwindcss v4 support, see
+# # https://github.com/shadcn-ui/ui/issues/4677#issuecomment-2656785278
+# # pnpm dlx shadcn@latest init
+# pnpm dlx shadcn@canary init
 
+
+pnpm dlx shadcn@latest init
 ```
+
+Then I added a first maficui component:
+
+```bash
+pnpm dlx shadcn@latest add "https://magicui.design/r/marquee"
+```
+
+After that, I added the `./src/MarqueeDemoVertical.tsx`, but the animation don't work at all, even the design it self does nto seem to work.
 
 ## Refs
 
-* https://ui.shadcn.com/docs/installation/vite
+* <https://ui.shadcn.com/docs/installation/vite>
+* <https://magicui.design/docs/components/marquee>
