@@ -52,6 +52,12 @@ export LATEST_3_RELEASE_OF_TAILWDCSS="3.4.17"
 # I checked version [3.4.17] of
 # tailwindcss does not have a binary 
 export LATEST_3_RELEASE_OF_TAILWDCSS="3.4.17"
+export LATEST_3_RELEASE_OF_TAILWDCSS="3.4.8"
+export LATEST_3_RELEASE_OF_TAILWDCSS="3.3.8"
+export LATEST_3_RELEASE_OF_TAILWDCSS="3.2.8"
+export LATEST_3_RELEASE_OF_TAILWDCSS="3.1.8"
+export LATEST_3_RELEASE_OF_TAILWDCSS="3.0.2"
+export LATEST_3_RELEASE_OF_TAILWDCSS="2.0.2"
 pnpm remove -D tailwindcss postcss autoprefixer
 pnpm add -D tailwindcss@${LATEST_3_RELEASE_OF_TAILWDCSS} postcss autoprefixer
 
