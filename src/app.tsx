@@ -2,20 +2,9 @@ import { useState } from 'preact/hooks'
 import preactLogo from './assets/preact.svg'
 import viteLogo from '/vite.svg'
 import './app.css'
-/**
- * 
- * ShadCN
- */
-import { Button as ShadCnBtn } from "@/components/ui/button"
-import { /*Terminal as ShadTerminal, */Alert as ShadAlert, AlertDescription as ShadAlertDescription, AlertTitle as ShadAlertTitle } from "@/components/ui/alert"
-import { Terminal } from "lucide-preact"
-
-import { useToast } from "@/hooks/use-toast"
 
 export function App() {
   const [count, setCount] = useState(0)
-  const [shadCount, setShadCount] = useState(0)
-  const { toast } = useToast()
 
   return (
     <>
@@ -49,33 +38,6 @@ export function App() {
       <p class="read-the-docs">
         Click on the Vite and Preact logos to learn more
       </p>
-      <p>
-        <ShadCnBtn onClick={() => setShadCount((shadCount) => shadCount + 1)}>
-          This is my first shadcn-ui button
-          shadCount is {shadCount}
-        </ShadCnBtn>
-      </p>
-      <p>
-
-
-        <ShadAlert>
-          <Terminal className="h-4 w-4" />
-          <ShadAlertTitle>A ShadCN Alert!</ShadAlertTitle>
-          <ShadAlertDescription>
-            This is the ShadCN alert description : You can add components and dependencies to your app using the cli.
-          </ShadAlertDescription>
-        </ShadAlert>
-      </p>
-        <ShadCnBtn
-          onClick={() => {
-            toast({
-              title: "Scheduled: Catch up",
-              description: "Friday, February 10, 2023 at 5:57 PM",
-            })
-          }}
-        >
-          Show Toast
-        </ShadCnBtn>
     </>
   )
 }
