@@ -3,7 +3,7 @@ import {
   fetchBaseQuery,
   // ApiEndpointQuery,
 } from "@reduxjs/toolkit/query/react";
-import { PestoProjectApiEntity } from "../../../app/api/entities/PestoProjectApiEntity"; /* from "../../features/PestoApi/Projects/pestoProjectSlice"*/
+import { PestoProjectApiEntity } from "../../api/entities/PestoProjectApiEntity"; /* from "../../features/PestoApi/Projects/pestoProjectSlice"*/
 
 import { PestoContentTypeApiEntity } from "./../entities/PestoContentTypeApiEntity";
 

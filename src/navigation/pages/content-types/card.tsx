@@ -1,12 +1,29 @@
 import { useContext, useEffect, useState } from "preact/hooks";
-import { Button, TextInput, Card, Toast, Alert } from "flowbite-react"
-import { Spinner } from "flowbite-react"
-import { KeyRound as LuKeyRound, SaveAll as LuSaveAll, BugIcon as LuErrorIcon, CheckIcon as LuSuccessIcon, BellIcon, Plus as LuPlus } from 'lucide-preact';
-import { useDeleteContentTypeMutation, useProjectListQuery, useUpdateContentTypeMutation } from "../../app/api/endpoints"
-import { PestoProjectApiEntity } from "../../app/api/entities/PestoProjectApiEntity";
-import { TargetedEvent } from "preact/compat";
+
+import { Input as TextInput } from "@/components/ui/input"
+import { toast } from "sonner"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+  
+
+
+// import { Spinner } from "flowbite-react"
+import { LoadingSpinner as Spinner } from "@/components/ui/LoadingSpinner"
+
+import { KeyRound as LuKeyRound, SaveAll as LuSaveAll, BugIcon as LuErrorIcon, CheckIcon as LuSuccessIcon, BellIcon, Plus as LuPlus } from 'lucide-react';
+import { useDeleteContentTypeMutation, useProjectListQuery, useUpdateContentTypeMutation } from "../../../api/endpoints"
+import { PestoProjectApiEntity } from "../../../api/entities/PestoProjectApiEntity";
+import { JSX, TargetedEvent } from "preact/compat";
 import { fmBooleanType, fmNumberType, fmStringType, fmUnSelectedType, PestoContentTypeContextEntityUtils } from "./utils/ContentTypeContextUtils";
-import { FrontmatterField, FrontMatterFieldType } from "./ContentTypeContext";
+import { FrontmatterField, FrontMatterFieldType, IPestoContentTypeContext } from "./ContentTypeContext";
 
 /**
  * Context imports
@@ -146,7 +163,7 @@ export function FrontmatterInput({ field_index, name: p_name = "", fmType: p_fmT
           required={true}
           id={`fmFieldName_${field_index}`}
           value={name || "Type Field Name"}
-          onchange={handleFrontmatterFieldNameChange}
+          onChange={handleFrontmatterFieldNameChange}
         />
       </div>
       <div>
@@ -300,7 +317,7 @@ export function ContentTypeListCardEditModeOnRedesigned({ setIsEditModeOnHook, s
   }
   if (isError) {
     return (<div>
-      <Alert>something went wrong fetching Pesto Projects for COntent Type {`${pestoContentTypeContext.contentTypeContextEntity.name}`} !</Alert>
+      <Alert>something went wrong fetching Pesto Projects for Content Type {`${pestoContentTypeContext.contentTypeContextEntity.name}`} !</Alert>
     </div>)
   }
   const [
@@ -352,27 +369,22 @@ export function ContentTypeListCardEditModeOnRedesigned({ setIsEditModeOnHook, s
      */
     initContextDependencies(pestoProjectListData)
   }, [isSuccess]);
+    // 
+    const showItemsLoadedSuccessToast = () => {
+        toast("ContentType has been created", {
+            description: `Pesto ContentType Items loaded successfully.`,
+            action: {
+              label: "Success",
+              icon: <BellIcon className="h-5 w-5" />,
+              onClick: () => console.log(`Pesto ContentType Items loaded successfully.`),
+            },
+          })
+    }
   return (
     <>
 
+      {isSuccess ? showItemsLoadedSuccessToast() : (<></>)}
       
-      {isSuccess ? (
-        <Toast>
-          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-            {//<HiCheck className="h-5 w-5" />
-            }
-            <BellIcon className="h-5 w-5" />
-            {//Highlighter, HandIcon, EyeOffIcon, EyeIcon, HopIcon, 
-            }
-          </div>
-          <div className="ml-3 text-sm font-normal">Pesto Project Items loaded successfully.</div>
-          <Toast.Toggle />
-        </Toast>
-
-      ) : (
-        <></>
-      )
-      }
 
 
       <section class="bg-cyan-500 dark:bg-cyan-300  rounded-lg">
@@ -412,7 +424,7 @@ export function ContentTypeListCardEditModeOnRedesigned({ setIsEditModeOnHook, s
                   required={true}
                   id={`input_name_${pestoContentTypeContext.contentTypeContextEntity._id}`}
                   value={pestoContentTypeContext.contentTypeContextEntity.name || "Type product name"}
-                  onchange={handleNameChange}
+                  onChange={handleNameChange}
                 />
               </div>
 
@@ -575,7 +587,7 @@ export function ContentTypeListCardEditModeOnRedesigned({ setIsEditModeOnHook, s
             Update
 
             {updatingContentType && (
-              <Spinner aria-label="Updating project..." />
+              <Spinner className={``} aria-label="Updating project..." />
             ) || (
                 <span></span>
               )}
@@ -752,12 +764,38 @@ export function ContentTypeListCard({isEditModeOn: p_isEditModeOn = false, showB
     isSuccess: hasSuccessfullyDeletedContentType,
     isLoading: isDeletingContentType,
   }] = useDeleteContentTypeMutation();
-
+  const showDeletionSuccessToast = (pestoContentTypeContext: IPestoContentTypeContext) => {
+    const contentTypeName = pestoContentTypeContext.contentTypeContextEntity.name;
+    toast(`ContentType [${contentTypeName}] has been deleted.`, {
+        description: `Pesto Content Type [${contentTypeName}] deleted successfully.`,
+        action: {
+          label: "Success",
+          icon: <LuSuccessIcon className="h-5 w-5" />,
+          onClick: () => console.log(`Pesto Content Type Item deleted successfully.`),
+        },
+      })
+  }
+const showDeletionFailureToast = (pestoContentTypeContext: IPestoContentTypeContext) => {
+  const contentTypeName = pestoContentTypeContext.contentTypeContextEntity.name;
+  toast(`Error deleting the  [${contentTypeName}] content type.`, {
+      description: `An error was encountered while trying to delete the  [${contentTypeName}] content type: .`,
+      action: {
+        label: "Error",
+        icon: <LuErrorIcon className="h-5 w-5" />,
+        onClick: () => console.log(`An error was encountered while trying to delete the content type.`),
+      },
+    })
+}
   return (
     <>
       {// READONLY MODE
       }
       <Card>
+        <CardHeader>
+            <CardTitle>ContentType List Card</CardTitle>
+            <CardDescription>ContentType Details</CardDescription>
+        </CardHeader>
+        <CardContent>
         {isEditModeOn && (
            /**
             * <ContentTypeListCardEditModeOn setIsEditModeOnHook={setIsEditModeOn} />
@@ -802,47 +840,12 @@ export function ContentTypeListCard({isEditModeOn: p_isEditModeOn = false, showB
 
             Remove
             {isDeletingContentType && (
-              <Spinner aria-label="Deleting Content Type..." />
+              <Spinner className={``} aria-label="Deleting Content Type..." />
             ) || (
                 <></>
               )}
-
-            {hasSuccessfullyDeletedContentType && (
-
-              <>
-                <Toast>
-                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-                    <LuSuccessIcon className="h-5 w-5" />
-                  </div>
-                  <div className="ml-3 text-sm font-normal">ContentType {deletedContentType.name} successfully deleted.</div>
-                  <Toast.Toggle />
-                </Toast>
-                <span>
-                  {// 
-                    `${JSON.stringify(deletedContentType, null, 4)}`
-                  }
-                </span>
-              </>
-            ) || (
-                <></>
-              )}
-
-            {didDeletionThrowError && (
-              <Toast>
-                <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-                  <LuErrorIcon className="h-5 w-5" />
-                </div>
-                <div className="ml-3 text-sm font-normal">An error was encountered while trying to delete the {`${pestoContentTypeContext?.contentTypeContextEntity.name}`} content type:</div>
-                <div className="ml-3 text-sm font-normal">
-                  <pre>
-
-                  </pre>
-                </div>
-                <Toast.Toggle />
-              </Toast>
-            ) || (
-                <></>
-              )}
+            {hasSuccessfullyDeletedContentType && showDeletionSuccessToast(pestoContentTypeContext)  || (<></>)}
+            {didDeletionThrowError && showDeletionFailureToast(pestoContentTypeContext)  || (<></>)}
           </Button>
 
           <a href={`/project/${pestoContentTypeContext?.contentTypeContextEntity._id}/content-mgmt`}
@@ -863,8 +866,12 @@ export function ContentTypeListCard({isEditModeOn: p_isEditModeOn = false, showB
               </>
              )
              }
+        </CardContent>
+        <CardFooter>
+            <p>Pesto @Copyleft 2025</p>
+        </CardFooter>
+        </Card>
 
-      </Card>
     </>
   )
 }

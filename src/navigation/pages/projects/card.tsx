@@ -1,11 +1,31 @@
 import { useState } from "preact/hooks";
-import { Button, TextInput, Card, Toast } from "flowbite-react"
+// import { Button, TextInput, Card, Toast } from "flowbite-react"
+
+import { Input as TextInput } from "@/components/ui/input"
+import { toast } from "sonner"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+  
+
+
+// import { Spinner } from "flowbite-react"
+// import { LoadingSpinner as Spinner } from "@/components/ui/LoadingSpinner"
+
+
 import { LoaderPinwheel as Spinner } from "lucide-react"
-import { KeyRound as LuKeyRound, SaveAll as LuSaveAll, BugIcon as LuErrorIcon, CheckIcon as LuSuccessIcon } from 'lucide-preact';
+import { KeyRound as LuKeyRound, SaveAll as LuSaveAll, BugIcon as LuErrorIcon, CheckIcon as LuSuccessIcon } from 'lucide-react';
 import {
   PestoProjectApiEntity,
 } from "../../../api/entities/PestoProjectApiEntity"/* from "../../features/PestoApi/Projects/pestoProjectSlice"*/
-import { useDeleteProjectMutation, useUpdateProjectMutation } from "../../app/api/endpoints/"
+import { useDeleteProjectMutation, useUpdateProjectMutation } from "../../../api/endpoints/"
 import { JSX } from "preact/jsx-runtime";
 
 
@@ -263,6 +283,29 @@ export function ProjectListCard({project, isEditModeOn = false, isEditable = tru
     isSuccess: hasSuccessfullyDeletedProject,
     isLoading: isDeletingProject,
   }] = useDeleteProjectMutation();
+
+  const showDeletionSuccessToast = (pestoContentTypeContext: IPestoContentTypeContext) => {
+    const contentTypeName = pestoContentTypeContext.contentTypeContextEntity.name;
+    toast(`ContentType [${contentTypeName}] has been deleted.`, {
+        description: `Pesto Content Type [${contentTypeName}] deleted successfully.`,
+        action: {
+          label: "Success",
+          icon: <LuSuccessIcon className="h-5 w-5" />,
+          onClick: () => console.log(`Pesto Content Type Item deleted successfully.`),
+        },
+      })
+  }
+const showDeletionFailureToast = (projectData: PestoProjectApiEntity) => {
+  const projectName = projectData.name;
+  toast(`Error deleting the  [${projectName}] projects.`, {
+      description: `An error was encountered while trying to delete the  [${projectName}] project.`,
+      action: {
+        label: "Error",
+        icon: <LuErrorIcon className="h-5 w-5" />,
+        onClick: () => console.log(`An error was encountered while trying to delete the project.`),
+      },
+    })
+}
   return (
     <>
       {// READONLY MODE
@@ -312,6 +355,7 @@ export function ProjectListCard({project, isEditModeOn = false, isEditable = tru
                       <></>
                     )}
 
+                    {hasSuccessfullyDeletedProject && }
                     {hasSuccessfullyDeletedProject && (
 
                       <>
