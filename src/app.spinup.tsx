@@ -1,14 +1,13 @@
-import ContentLayout from './layouts/main.tsx'
 import { useState } from 'preact/hooks'
 import preactLogo from './assets/preact.svg'
 import viteLogo from '/vite.svg'
 import './app.css'
 
-export default function App() {
+export function App() {
   const [count, setCount] = useState(0)
+
   return (
     <>
-    <ContentLayout>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} class="logo" alt="Vite logo" />
@@ -17,7 +16,7 @@ export default function App() {
           <img src={preactLogo} class="logo preact" alt="Preact logo" />
         </a>
       </div>
-      <h1>Welcome to the Pesto App!</h1>
+      <h1>Vite + Preact</h1>
       <div class="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -39,7 +38,6 @@ export default function App() {
       <p class="read-the-docs">
         Click on the Vite and Preact logos to learn more
       </p>
-    </ContentLayout>
     </>
-  );
+  )
 }
