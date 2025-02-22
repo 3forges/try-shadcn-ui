@@ -1,7 +1,14 @@
 import { Router, Route } from "preact-router"
 import Home from "./pages/Home"
 import { PestoProjectList } from './pages/projects/list.tsx';
-
+import { PestoProjectDetail } from './pages/projects/details.tsx';
+import { PestoContentTypeList } from './pages/content-types/list.tsx'
+import { PestoContentTypeDetail } from './pages/content-types/details.tsx'
+import { GithubLoginButton } from "./pages/login/github/GithubLoginButton.tsx";
+import { MarkdownEditor } from "./pages/content/MarkDownEditor.tsx";
+import About from "./pages/About.tsx";
+import Pricing from "./pages/Pricing.tsx";
+import Contact from "./pages/Contact.tsx";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -27,7 +34,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                      * Content per Project
                      */
                 }
-                <Route path="/project/:project_id?/content-mgmt" component={PestoProjectContentMgmtUI} />
+                
+                {
+                    // <Route path="/project/:project_id?/content-mgmt" component={PestoProjectContentMgmtUI} />
+                }
 
                 {
                     // 

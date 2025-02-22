@@ -7,7 +7,7 @@ import { JSX } from "preact/jsx-runtime"
  * @param className css classes 
  * @returns 
  */
-export function LoadingSpinner({className}: { className: string}): JSX.Element {
+export function LoadingSpinner({className = ``}: { className?: string}): JSX.Element {
     return (<svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"

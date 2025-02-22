@@ -1,4 +1,4 @@
-import { WorkflowIcon,TypeIcon,Calendar, Home, Inbox, Search, Settings, LogOut } from "lucide-react"
+import { WorkflowIcon,TypeIcon,Calendar, Home, Inbox, Search, Settings, LogOut, Github } from "lucide-react"
 
 import {
   Sidebar,
@@ -15,23 +15,28 @@ import {
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: "About",
+    url: "/",
     icon: Inbox,
   },
   {
     title: "Pesto Projects",
-    url: "#",
+    url: "/projects",
     icon: WorkflowIcon,
   },
   {
     title: "Pesto Content Types",
-    url: "#",
+    url: "/content-types",
     icon: TypeIcon,
+  },
+  {
+    title: "Editor",
+    url: "/editor",
+    icon: Calendar,
   },
   {
     title: "Calendar",
@@ -49,7 +54,13 @@ const items = [
     icon: Settings,
   },
   {
+    title: "Github Login",
+    url: "/oauth/github/login",
+    icon: Github,
+  },
+  {
     title: "Logout",
+    // url: "/oauth/github/logout",
     url: "#",
     icon: LogOut,
   },

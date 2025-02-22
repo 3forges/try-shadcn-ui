@@ -284,20 +284,20 @@ export function ProjectListCard({project, isEditModeOn = false, isEditable = tru
     isLoading: isDeletingProject,
   }] = useDeleteProjectMutation();
 
-  const showDeletionSuccessToast = (pestoContentTypeContext: IPestoContentTypeContext) => {
-    const contentTypeName = pestoContentTypeContext.contentTypeContextEntity.name;
-    toast(`ContentType [${contentTypeName}] has been deleted.`, {
-        description: `Pesto Content Type [${contentTypeName}] deleted successfully.`,
+  const showDeletionSuccessToast = (projectData: PestoProjectApiEntity) => {
+    const projectName = projectData.name;
+    toast(`Project [${projectName}] has been deleted.`, {
+        description: `Pesto Project [${projectName}] deleted successfully.`,
         action: {
           label: "Success",
           icon: <LuSuccessIcon className="h-5 w-5" />,
-          onClick: () => console.log(`Pesto Content Type Item deleted successfully.`),
+          onClick: () => console.log(`Pesto Project deleted successfully.`),
         },
       })
   }
 const showDeletionFailureToast = (projectData: PestoProjectApiEntity) => {
   const projectName = projectData.name;
-  toast(`Error deleting the  [${projectName}] projects.`, {
+  toast(`Error deleting the  [${projectName}] project.`, {
       description: `An error was encountered while trying to delete the  [${projectName}] project.`,
       action: {
         label: "Error",
@@ -355,43 +355,10 @@ const showDeletionFailureToast = (projectData: PestoProjectApiEntity) => {
                       <></>
                     )}
 
-                    {hasSuccessfullyDeletedProject && }
-                    {hasSuccessfullyDeletedProject && (
+            {hasSuccessfullyDeletedProject && showDeletionSuccessToast(projectData) }
+            {didDeletionThrowError && showDeletionFailureToast(projectData) }
+                    
 
-                      <>
-                            <Toast>
-                              <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
-                                <LuSuccessIcon className="h-5 w-5" />
-                              </div>
-                              <div className="ml-3 text-sm font-normal">Project {projectData.name} successfully deleted.</div>
-                              <Toast.Toggle />
-                            </Toast>                    
-                      <span>
-                        {// 
-                        `${JSON.stringify(projectData, null, 4)}`
-                        }
-                      </span>
-                      </>
-                    ) || (
-                      <></>
-                    )}
-
-                    {didDeletionThrowError && (
-                          <Toast>
-                            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-                              <LuErrorIcon className="h-5 w-5" />
-                            </div>
-                            <div className="ml-3 text-sm font-normal">An error was encountered while trying to delete the {`${projectData.name}`} project:</div>
-                            <div className="ml-3 text-sm font-normal">
-                              <pre>
-                                
-                              </pre>
-                            </div>
-                            <Toast.Toggle />
-                          </Toast>
-                    ) || (
-                      <></>
-                    )}
             </Button>
 
             <a href={`/project/${projectData._id}/content-mgmt`}
