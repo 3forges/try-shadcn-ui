@@ -1,5 +1,7 @@
 import { Router, Route } from "preact-router"
 import Home from "./pages/Home"
+import Test from "./pages/test"
+
 import { PestoProjectList } from './pages/projects/list.tsx';
 import { PestoProjectDetail } from './pages/projects/details.tsx';
 import { PestoContentTypeList } from './pages/content-types/list.tsx'
@@ -14,6 +16,7 @@ export default function Layout(/*{ children }: { children: React.ReactNode }*/) 
     return (
         <>
             <Router>
+                <Route path="/tests" component={Test} />
                 <Route path="/" component={Home} />
                 {
                     /**
