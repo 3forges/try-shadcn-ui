@@ -10,7 +10,7 @@ export default function Test(): JSX.Element {
 }
 
 
-import { Copy } from "lucide-react"
+import { Copy, Plus as LuPlus, SaveAll as LuSaveAll } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -25,30 +25,51 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ContentTypeListCard } from "./content-types/card";
+import { PestoContentTypeContextProvider } from "./content-types/ContentTypeContext";
 
-export function DialogCloseButton() {
+export function DialogCloseButton({ children }: { children?: React.ReactNode }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Share</Button>
+                <Button variant="outline">
+                    <LuPlus />
+                </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Share link</DialogTitle>
+                    <DialogTitle>Add new Content Type</DialogTitle>
                     <DialogDescription>
-                        Anyone who has this link will be able to view this.
+                        Create a new content type by filling in the below form.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2">
                     <div className="grid flex-1 gap-2">
-                        <Label htmlFor="link" className="sr-only">
-                            Link
-                        </Label>
-                        <Input
-                            id="link"
-                            defaultValue="https://ui.shadcn.com/docs/installation"
-                            readOnly
+
+
+                        <div>
+                        <PestoContentTypeContextProvider contentTypeApiEntity={{
+                    _id: 0,
+                    name: `Type the name of the new content type`,
+                    description: `Type the description of the new content type`,
+                    frontmatter_definition: `export interface defaultFrontmatterName {
+
+      }
+      `,
+                    project_id: `0`,
+                    createdAt: ``,
+                    __v: 0
+                }}>
+                        <ContentTypeListCard
+                            showButtons={false}
+                            showTitle={false}
+                            showGeneratedFields={false}
+                            isEditModeOn={true}
                         />
+                </PestoContentTypeContextProvider>
+
+                        </div>
+
                     </div>
                     <Button type="submit" size="sm" className="px-3">
                         <span className="sr-only">Copy</span>
