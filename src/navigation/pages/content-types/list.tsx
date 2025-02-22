@@ -90,24 +90,35 @@ export function CreateContentTypeModal(/* {modalId}: CreateContentTypeModalProps
 
             <div class="m-3 grid gap-4 sm:grid-cols-2 sm:gap-6">
                 <div class="sm:col-span-2 inline-flex shadow-sm">
-                    <button
-                        type="button"
-                        onClick={() => setOpenCreateContentTypeModal(true)}
+                    <Button
+                        variant={"secondary"}
+                        onClick={async () => {
+                            console.log(`JBL DEBUG OPEN CREATE NEW CONTENT TYPE MODAL`)
+                            setOpenCreateContentTypeModal(true);
+                        }}
                         class="py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:z-10 focus:outline-none text-white bg-cyan-700 border border-transparent enabled:hover:bg-cyan-800 focus:ring-cyan-300 dark:bg-cyan-600 dark:enabled:hover:bg-cyan-700 dark:focus:ring-cyan-800 rounded-lg focus:ring-2"
                     >
                         <LuPlus />
-                    </button>
+                    </Button>
                 </div>
             </div>
 
             {
                 <Dialog 
                  open={openCreateContentTypeModal}
-                 onOpenChange={() => setOpenCreateContentTypeModal(openCreateContentTypeModal!)}
+                 modal={true}
+                 onOpenChange={async () => {
+                    /**
+                     * 
+                     */
+                    console.log(`JBL DEBUG [onOpenChange] openCreateContentTypeModal=[${openCreateContentTypeModal}]`)
+                    setOpenCreateContentTypeModal(openCreateContentTypeModal!)
+                 }}
                 >
                     {
                     // <DialogTrigger>Open</DialogTrigger>
                     }
+                    
                     <DialogContent>
                         <DialogHeader>
                         <DialogTitle>New ContentType</DialogTitle>

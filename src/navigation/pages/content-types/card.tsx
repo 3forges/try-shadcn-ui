@@ -790,7 +790,7 @@ const showDeletionFailureToast = (pestoContentTypeContext: IPestoContentTypeCont
     <>
       {// READONLY MODE
       }
-      <Card>
+      <Card className={`p-2`}>
         <CardHeader>
             <CardTitle>ContentType List Card</CardTitle>
             <CardDescription>ContentType Details</CardDescription>
@@ -812,6 +812,7 @@ const showDeletionFailureToast = (pestoContentTypeContext: IPestoContentTypeCont
               <>
         <div class="grid grid-cols-2 gap-2 z-0 p-3">
           <Button
+              variant={"secondary"}
             onClick={async () => {
               console.log(`Passage en mode Édition`)
               await setIsEditModeOn(true)
@@ -830,6 +831,7 @@ const showDeletionFailureToast = (pestoContentTypeContext: IPestoContentTypeCont
 
           </a>
           <Button
+              variant={"ghost"}
             onClick={async () => {
               await deleteContentType({
                 _id: `${pestoContentTypeContext?.contentTypeContextEntity._id}`

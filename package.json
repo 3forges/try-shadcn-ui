@@ -32,6 +32,7 @@
     "preact-router": "^4.1.2",
     "react": "npm:@preact/compat",
     "react-dom": "npm:@preact/compat",
+    "react-redux": "^9.2.0",
     "rehype-rewrite": "^4.0.2",
     "sonner": "^2.0.1",
     "tailwind-merge": "^3.0.1",

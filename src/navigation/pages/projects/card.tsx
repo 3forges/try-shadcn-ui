@@ -310,7 +310,7 @@ const showDeletionFailureToast = (projectData: PestoProjectApiEntity) => {
     <>
       {// READONLY MODE
       }
-      <Card>
+      <Card className={`p-2`}>
       {isEditModeOnYesOrNo && (
                   <ProjectListCardEditModeOn setProjectHook={setProjectData} setIsEditModeOnHook={setIsEditModeOnYesOrNo} project={projectData} />
                   ) || (
@@ -322,6 +322,7 @@ const showDeletionFailureToast = (projectData: PestoProjectApiEntity) => {
         <>
       <div class="grid grid-cols-2 gap-2 z-0 p-3">
       <Button
+              variant={"ghost"}
               onClick={async() => {
                 console.log(`Passage en mode Édition`)
                 await setIsEditModeOnYesOrNo(true)
@@ -340,6 +341,7 @@ const showDeletionFailureToast = (projectData: PestoProjectApiEntity) => {
 
             </a>
             <Button
+              variant={"ghost"}
               onClick={async () => {
                 await deleteProject({
                   _id: `${projectData._id}`
@@ -348,7 +350,7 @@ const showDeletionFailureToast = (projectData: PestoProjectApiEntity) => {
               }}
             >
 
-              Remove
+              Remove JBL
               {isDeletingProject && (
                         <Spinner aria-label="Deleting project..." />
                     ) || (

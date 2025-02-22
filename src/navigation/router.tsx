@@ -10,7 +10,7 @@ import About from "./pages/About.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import Contact from "./pages/Contact.tsx";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout(/*{ children }: { children: React.ReactNode }*/) {
     return (
         <>
             <Router>
