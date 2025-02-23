@@ -4,7 +4,7 @@ export default function Test(): JSX.Element {
     return (
         <>
             <h1>Tests</h1>
-            <DialogCloseButton />
+            <CreateNewContentTypeDialog />
         </>
     )
 }
@@ -28,7 +28,7 @@ import { Label } from "@/components/ui/label"
 import { ContentTypeListCard } from "./content-types/card";
 import { PestoContentTypeContextProvider } from "./content-types/ContentTypeContext";
 
-export function DialogCloseButton({ children }: { children?: React.ReactNode }) {
+export function CreateNewContentTypeDialog({ children }: { children?: React.ReactNode }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -48,25 +48,24 @@ export function DialogCloseButton({ children }: { children?: React.ReactNode }) 
 
 
                         <div>
-                        <PestoContentTypeContextProvider contentTypeApiEntity={{
-                    _id: 0,
-                    name: `Type the name of the new content type`,
-                    description: `Type the description of the new content type`,
-                    frontmatter_definition: `export interface defaultFrontmatterName {
-
-      }
-      `,
-                    project_id: `0`,
-                    createdAt: ``,
-                    __v: 0
-                }}>
-                        <ContentTypeListCard
-                            showButtons={false}
-                            showTitle={false}
-                            showGeneratedFields={false}
-                            isEditModeOn={true}
-                        />
-                </PestoContentTypeContextProvider>
+                            <PestoContentTypeContextProvider contentTypeApiEntity={{
+                                _id: 0,
+                                name: `Type the name of the new content type`,
+                                description: `Type the description of the new content type`,
+                                frontmatter_definition: `export interface defaultFrontmatterName {
+                                }
+                                `,
+                                project_id: `0`,
+                                createdAt: ``,
+                                __v: 0
+                            }}>
+                                <ContentTypeListCard
+                                    showButtons={true}
+                                    showTitle={false}
+                                    showGeneratedFields={false}
+                                    isEditModeOn={true}
+                                />
+                            </PestoContentTypeContextProvider>
 
                         </div>
 
