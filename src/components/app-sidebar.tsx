@@ -24,6 +24,11 @@ const items = [
     icon: Inbox,
   },
   {
+    title: "Tests Autoform",
+    url: "/tests-autoform",
+    icon: Inbox,
+  },
+  {
     title: "About",
     url: "/about",
     icon: Inbox,
