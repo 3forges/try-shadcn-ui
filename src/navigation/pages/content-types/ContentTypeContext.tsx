@@ -91,7 +91,7 @@ export const PestoContentTypeContextProvider: FC<PestoContentTypeContextProvider
    * Only the "SAVE/UPDATE" btn click events
    * will call redux RTK methods.
    * 
-   * Each ContentTypeListCard has its own context,
+   * Each ContentTypeCard has its own context,
    * which shares the context between the 2
    * cards:
    * -> edit mode on card

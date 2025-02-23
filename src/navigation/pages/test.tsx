@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ContentTypeListCard } from "./content-types/card";
+import { ContentTypeCard } from "./content-types/card/ContentTypeCard";
 import { PestoContentTypeContextProvider } from "./content-types/ContentTypeContext";
 
 export function CreateNewContentTypeDialog({ children }: { children?: React.ReactNode }) {
@@ -59,7 +59,7 @@ export function CreateNewContentTypeDialog({ children }: { children?: React.Reac
                                 createdAt: ``,
                                 __v: 0
                             }}>
-                                <ContentTypeListCard
+                                <ContentTypeCard
                                     showButtons={true}
                                     showTitle={false}
                                     showGeneratedFields={false}

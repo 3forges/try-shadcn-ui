@@ -28,7 +28,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 
 import { BugIcon as LuErrorIcon, CheckIcon as LuSuccessIcon, Plus as LuPlus, BellIcon, SaveAll as LuSaveAll } from 'lucide-react' //<LuPlus />
-import { ContentTypeListCard } from "./card"
+import { ContentTypeCard } from "./card/ContentTypeCard"
 import { pestoApi } from "../../../api/endpoints"
 import { IPestoContentTypeContext, PestoContentTypeContext, PestoContentTypeContextProvider } from "./ContentTypeContext"
 import { PestoContentTypeContextEntityUtils } from "./utils/ContentTypeContextUtils"
@@ -41,7 +41,7 @@ export interface CreateContentTypeModalProps {
 export function CreateContentTypeModal(/* {modalId}: CreateContentTypeModalProps */): JSX.Element {
     const pestoContentTypeContext = useContext(PestoContentTypeContext)
     if (!pestoContentTypeContext) {
-        throw new Error(`[ContentTypeListCard] - [pestoContentTypeContext] is null or undefined!`)
+        throw new Error(`[ContentTypeCard] - [pestoContentTypeContext] is null or undefined!`)
     }
     const [openCreateContentTypeModal, setOpenCreateContentTypeModal] = useState(false);
     const [
@@ -130,7 +130,7 @@ export function CreateContentTypeModal(/* {modalId}: CreateContentTypeModalProps
                         <div className="space-y-6">
 
                             <div>
-                                <ContentTypeListCard
+                                <ContentTypeCard
                                     showButtons={false}
                                     showTitle={false}
                                     showGeneratedFields={false}
@@ -149,7 +149,7 @@ export function CreateContentTypeModal(/* {modalId}: CreateContentTypeModalProps
                     <div className="space-y-6">
 
                         <div>
-                            <ContentTypeListCard
+                            <ContentTypeCard
                                 showButtons={false}
                                 showTitle={false}
                                 showGeneratedFields={false}
@@ -294,7 +294,7 @@ export function PestoContentTypeList(): JSX.Element {
                                 <PestoContentTypeContextProvider contentTypeApiEntity={contentType}>
                                     <div>
                                         <span>ContentType # {index}</span>
-                                        <ContentTypeListCard
+                                        <ContentTypeCard
                                             isEditModeOn={false}
                                         />
                                     </div>

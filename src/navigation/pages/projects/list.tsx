@@ -35,7 +35,7 @@ import { BellIcon, CheckIcon as LuSuccessIcon, BugIcon as LuErrorIcon } from 'lu
 //import { BugIcon as LuErrorIcon, CheckIcon as LuSuccessIcon, Plus as LuPlus, BellIcon, SaveAll as LuSaveAll } from 'lucide-react'
 
 import { pestoApi } from "../../../api/endpoints/"
-// import { ProjectListCard } from "../components/ContentType/ContentTypeListCard"
+// import { ProjectListCard } from "../components/ContentType/ContentTypeCard"
 import { ProjectListCard } from "./card"
 import { JSX } from "preact/jsx-runtime"
 const { useProjectListQuery } = pestoApi

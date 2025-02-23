@@ -3,7 +3,7 @@ import { FunctionalComponent, JSX } from 'preact'
 // import { Spinner } from "flowbite-react"
 import { LoadingSpinner as Spinner } from "@/components/ui/LoadingSpinner"
 
-import { ContentTypeListCard } from "./card"
+import { ContentTypeCard } from "./card/ContentTypeCard"
 import { pestoApi } from "../../../api/endpoints"
 import { PestoContentTypeContextProvider } from "./ContentTypeContext"
 const {
@@ -93,7 +93,7 @@ export const PestoContentTypeDetail: FunctionalComponent<PestoContentTypeDetailP
 
                 {contentTypeDetailQueryIsSuccess ? (
                     <PestoContentTypeContextProvider contentTypeApiEntity={contentTypeDetail}>
-                        <ContentTypeListCard
+                        <ContentTypeCard
 
                             isEditModeOn={false}
                         />
