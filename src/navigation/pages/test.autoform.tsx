@@ -49,25 +49,11 @@ export function CreateNewContentTypeDialog({ children }: { children?: React.Reac
 
 
                         <div>
-                            <PestoContentTypeContextProvider contentTypeApiEntity={{
-                                _id: 0,
-                                name: `Type the name of the new content type`,
-                                description: `Type the description of the new content type`,
-                                frontmatter_definition: `export interface defaultFrontmatterName {
-                                }
-                                `,
-                                project_id: `0`,
-                                createdAt: ``,
-                                __v: 0
-                            }}>
-                                <ContentTypeCard
-                                    showButtons={true}
-                                    showTitle={false}
-                                    showGeneratedFields={false}
-                                    isEditModeOn={true}
-                                />
-                            </PestoContentTypeContextProvider>
-
+                            {TsToZod.convert(`export interface whatever {
+                name: string,
+                surname?: string,
+                date_of_birth: date
+            }`)}
                         </div>
 
                     </div>
@@ -91,15 +77,30 @@ export function CreateNewContentTypeDialog({ children }: { children?: React.Reac
 
 /**
  * Utilities for ts-to-zod usage
+ * OK:
+ * -> I have done a few tests, and definitely:
+ *   + ts-to-zod will return a string, not a zod schema Instance
+ *   + ts-to-zod is made to work on local files, which makes it impossible to use in browser directly
+ * 
+ * So instead, I will have to:
+ *   + have an api endpoint in pesto api, that does exactly same as https://github.com/ritz078/transform/blob/c6e0748bad06a31373e2a8324a764e9467646742/pages/api/typescript-to-zod.ts#L17
+ *   + and on browser side, I will have to use my zod-reify package, definitely
+ *   + note: in the ts-to-zod package, i may find useful source code to resolve dependencies
+ * 
+ * So, for me to be able to use autoform, i will HAVE, to 
+ * make sure zod-reify is able to work in browser
+ * 
  */
 
 export class TsToZod {
-    convert = (tsInterface: string): any => {
+    public static convert = (tsInterfaceAsText: string): any => {
        /**
         * https://github.com/ritz078/transform/blob/c6e0748bad06a31373e2a8324a764e9467646742/pages/api/typescript-to-zod.ts#L17
         */
        
-      `tmp.interface.${Math.floor(Math.random() * 10000)}.ts`;
+       // `tmp.interface.${Math.floor(Math.random() * 10000)}.ts`;
+       // https://www.dolthub.com/blog/2021-12-15-client-side-storage-with-react/#deciding-to-use-an-outside-library
+       // how to avoid having to create a local file with the typescript interface code inside?
       
       
        try {
@@ -113,13 +114,20 @@ export class TsToZod {
           skipParseJSDoc: true
         });
     
-        const schema = schemaGenerator.getZodSchemasFile(filePath);
-    
+        schemaGenerator.transformedSourceText
+        console.log(`JBL DEBUG: schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`)
+        
+        
+        console.log(`JBL DEBUG: schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`)
+        
+        const schema = schemaGenerator.getZodSchemasFile(`./content/astro.config.ts`);
+        console.log(`JBL DEBUG: schemaGenerator.getZodSchemasFile returns [${schema}]`)
         const formattedSchema = schema
           .split(/\r?\n/)
           .slice(1)
           .join("\n");
-    
+        console.log(`JBL DEBUG: formattedSchema = [${formattedSchema}]`)
+        
         return formattedSchema;
       } catch (e) {
         // throw new Error(`${e.message}`)
