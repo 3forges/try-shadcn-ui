@@ -117,7 +117,7 @@ export class TsToZod {
         schemaGenerator.transformedSourceText
         console.log(`JBL DEBUG: schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`)
         
-        
+        schemaGenerator.transformedSourceText
         console.log(`JBL DEBUG: schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`)
         
         const schema = schemaGenerator.getZodSchemasFile(`./content/astro.config.ts`);
