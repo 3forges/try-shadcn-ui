@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@autoform/zod':
+        specifier: ^2.1.0
+        version: 2.1.0(zod@3.24.2)
       '@radix-ui/react-avatar':
         specifier: ^1.1.3
         version: 1.1.3(@preact/compat@18.3.1(preact@10.26.2))(@preact/compat@18.3.1(preact@10.26.2))(@types/react@19.0.10)
@@ -113,6 +116,9 @@ importers:
       vaul:
         specifier: ^1.1.2
         version: 1.1.2(@preact/compat@18.3.1(preact@10.26.2))(@preact/compat@18.3.1(preact@10.26.2))(@types/react@19.0.10)
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
       zustand:
         specifier: ^5.0.3
         version: 5.0.3(@preact/compat@18.3.1(preact@10.26.2))(@types/react@19.0.10)(immer@10.1.1)(use-sync-external-store@1.4.0(@preact/compat@18.3.1(preact@10.26.2)))
@@ -147,6 +153,14 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@autoform/core@2.1.0':
+    resolution: {integrity: sha512-8eJIa4psajV3A5reJB3MFWfqSJkEQwU5NEuG+LzJNJlwy5c/T7Q/U1D+ofswGJOGWhDdAKUrLylkcnbL8pfkpg==}
+
+  '@autoform/zod@2.1.0':
+    resolution: {integrity: sha512-HWd2AiorgvEzjsnP4e4bSnfhuVnRCXUiQwh9vJuYVpa5S/oxMdCaJihPdhMffmIaHOkapkMfxe9K3EfbLzSubg==}
+    peerDependencies:
+      zod: ^3
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -2615,6 +2629,13 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
+
+  '@autoform/core@2.1.0': {}
+
+  '@autoform/zod@2.1.0(zod@3.24.2)':
+    dependencies:
+      '@autoform/core': 2.1.0
+      zod: 3.24.2
 
   '@babel/code-frame@7.26.2':
     dependencies:

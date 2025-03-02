@@ -58,6 +58,14 @@ export interface IPestoContentTypeContext {
   // setContentTypeContextEntity: Function
   // setContentTypeContextEntity: StateUpdater<PestoContentTypeContextEntity>//(contentTypeContextEntity: PestoContentTypeContextEntity) => {}
   setContentTypeContextEntity: Dispatch<StateUpdater<PestoContentTypeContextEntity>>
+  /**
+   * 
+   */
+  contentTypeContextApiEntity: PestoContentTypeApiEntity
+  // setContentTypeContextEntity: Function
+  // setContentTypeContextEntity: StateUpdater<PestoContentTypeContextEntity>//(contentTypeContextEntity: PestoContentTypeContextEntity) => {}
+  setContentTypeContextApiEntity: Dispatch<StateUpdater<PestoContentTypeApiEntity>>
+  
 }
 
 export const PestoContentTypeContext = createContext<IPestoContentTypeContext|null>(null)
@@ -106,11 +114,22 @@ export const PestoContentTypeContextProvider: FC<PestoContentTypeContextProvider
     ], // converted frontmatter definition
     name: contentTypeApiEntity.name,
     project_id: contentTypeApiEntity.project_id,
-    __v: 0
+    __v: contentTypeApiEntity.__v
   });
-
+  /**
+   * To access in the context, the bare object, especially to access the frontmatter definition string which is a typescript interface
+   */
+  const [contentTypeContextApiEntity, setContentTypeContextApiEntity] = useState<PestoContentTypeApiEntity>({
+    _id: contentTypeApiEntity._id,
+    createdAt: contentTypeApiEntity.createdAt,
+    description: contentTypeApiEntity.description,
+    frontmatter_definition: contentTypeApiEntity.frontmatter_definition, // converted frontmatter definition
+    name: contentTypeApiEntity.name,
+    project_id: contentTypeApiEntity.project_id,
+    __v: contentTypeApiEntity.__v
+  });
   return (
-    <PestoContentTypeContext.Provider value={{ contentTypeContextEntity, setContentTypeContextEntity }}>
+    <PestoContentTypeContext.Provider value={{ contentTypeContextApiEntity, setContentTypeContextApiEntity,contentTypeContextEntity, setContentTypeContextEntity }}>
       {children}
     </PestoContentTypeContext.Provider>
   )

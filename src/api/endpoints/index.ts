@@ -40,7 +40,7 @@ export const pestoApi = createApi({
    * https://redux-toolkit.js.org/rtk-query/usage/cache-behavior#re-fetching-on-network-reconnection-with-refetchonreconnect
    */
   refetchOnReconnect: true,
-  tagTypes: ["PestoProjectApiEntity", "PestoContentTypeApiEntity"],
+  tagTypes: ["PestoProjectApiEntity", "PestoContentTypeApiEntity", "{ tsInterfaceAsStr: string }"],
   endpoints: (build) => ({
     /*************************************
      * -----------------------------------
@@ -530,6 +530,39 @@ export const pestoApi = createApi({
         };
       },
     }),
+
+    /*************************************
+     * -----------------------------------
+     * -----------------------------------
+     * TS TO ZOD
+     * -----------------------------------
+     * -----------------------------------
+     *************************************/
+    convertTsToZod: build.mutation<
+      { schema: string },
+      {
+        v_tsInterfaceAsStr: string;
+      }
+    >({
+      query({ 
+        v_tsInterfaceAsStr,
+      }) {
+        console.log(` RTK QUERY - I am the [convertTsToZod]. I will convert to zod schema, the below typescript interface: `, {
+          tsInterfaceAsStr: `${v_tsInterfaceAsStr}`,
+        });
+        return {
+          window: null, // Can only be null. Used to disassociate request from any Window.
+          url: "ts-to-zod",
+          /* params: {
+                limit: 10
+              }, */
+          method: "POST",
+          body: {
+            tsInterfaceAsStr: `${v_tsInterfaceAsStr}`,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -552,4 +585,8 @@ export const {
   useDeleteContentTypeMutation,
   useContentTypeDetailQuery,
   //  } = pestoContentTypeApi;
+  /**
+   * TS TO ZOD
+   */
+  useConvertTsToZodMutation,
 } = pestoApi;

@@ -1,79 +1,119 @@
 import { JSX } from "preact/jsx-runtime";
 import { generate } from "ts-to-zod";
-
-export default function TestAutomform(): JSX.Element {
-    return (
-        <>
-            <h1>Tests</h1>
-            <CreateNewContentTypeDialog />
-        </>
-    )
-}
-
-
+import z from 'zod';
+/**
+ * following https://autoform.vantezzen.io/docs/react/getting-started
+ */
+import { AutoForm } from "@/components/ui/autoform"
+import { ZodProvider } from "@autoform/zod";
+/*
 import { Copy, Plus as LuPlus, SaveAll as LuSaveAll } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
+
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ContentTypeCard } from "./content-types/card/ContentTypeCard";
-import { PestoContentTypeContextProvider } from "./content-types/ContentTypeContext";
+*/
+// import { ContentTypeCard } from "./content-types/card/ContentTypeCard";
+// import { PestoContentTypeContextProvider } from "./content-types/ContentTypeContext";
+import React, { useContext, useEffect } from "preact/compat";
+import { useConvertTsToZodMutation, useUpdateContentTypeMutation } from "@/api/endpoints";
+import { PestoContentTypeContext } from "./content-types/ContentTypeContext";
 
-export function CreateNewContentTypeDialog({ children }: { children?: React.ReactNode }) {
+
+/**
+ * This component will use autoform, to spin up a form, from
+ * a pesto content type:
+ * - 
+ * 
+ * @returns The React Component
+ */
+export async function UpdatePestoContentTypeCard(): Promise<React.JSX.Element> {
+    
+    const pestoContentTypeContext = useContext(PestoContentTypeContext)
+    if (!pestoContentTypeContext) {
+      throw new Error(`[ContentTypeCard] - [pestoContentTypeContext] is null or undefined!`)
+    }
+    
+    const [
+    updateContentType,
+    /*
+    {
+        data: updatedContentType,
+        isLoading: updatingContentType,
+        // isUninitialized,
+        isSuccess: contentTypeUpdateSuccess,
+        isError: contentTypeUpdateError
+    }
+    */
+    ] = useUpdateContentTypeMutation();
+
+    /**
+     * ***********************************
+     */
+    const [
+        convertTsToZod,
+        {
+            data: tsInterfaceConvertedToZod,
+            isLoading: convertingToZod,
+            // isUninitialized,
+            isSuccess: conversionToZodSuccess,
+            isError: conversionToZodError
+            }
+            /*
+            */
+    ] = useConvertTsToZodMutation();
+    /**
+     * zodSchemaOfTheFrontmatter will 
+     * be the Zod Schema of the converted
+     */
+    /*let frontmatterZodSchemaAsStr = */
+    await convertTsToZod({
+        v_tsInterfaceAsStr: pestoContentTypeContext.contentTypeContextApiEntity.frontmatter_definition
+    })
+    useEffect(() => {
+        if(conversionToZodSuccess) {
+            // frontmatterZodSchemaAsStr.data?.schema
+            console.log(`The typescript interface frontmatter definition was successfully converted to the following zod schema:  [${tsInterfaceConvertedToZod.schema}]`)
+        }
+        if(conversionToZodError) {
+            console.log(`An Error occured converting ts interface to zod schema // conversionToZodError has just changed its value to: [${conversionToZodError}]`)
+        }
+        if(convertingToZod) {
+            console.log(`convertingToZod (loading conversion to zod) has just changed its value to: [${convertingToZod}]`)
+        }
+    }, [conversionToZodSuccess, conversionToZodError, convertingToZod])
+
+    
+    let zodSchemaOfTheFrontmatter = z.object({
+        name: z.string(),
+        items_in_stock: z.number(),
+        description: z.string(),
+    });
+    
+    // pestoContentTypeContext.contentTypeContextApiEntity.frontmatter_definition
+    let zodSchemaOfTheContentType = z.object({
+        _id: z.number(),
+        name: z.string(),
+        project_id: z.string(),
+        frontmatter_definition: zodSchemaOfTheFrontmatter,
+        description: z.string(),
+        createdAt: z.string(),
+    });
+
+    const schemaProvider = new ZodProvider(zodSchemaOfTheContentType);
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline">
-                    <LuPlus />
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                    <DialogTitle>Add new Content Type</DialogTitle>
-                    <DialogDescription>
-                        Create a new content type by filling in the below form.
-                    </DialogDescription>
-                </DialogHeader>
-                <div className="flex items-center space-x-2">
-                    <div className="grid flex-1 gap-2">
-
-
-                        <div>
-                            {TsToZod.convert(`export interface whatever {
-                name: string,
-                surname?: string,
-                date_of_birth: date
-            }`)}
-                        </div>
-
-                    </div>
-                    <Button type="submit" size="sm" className="px-3">
-                        <span className="sr-only">Copy</span>
-                        <Copy />
-                    </Button>
-                </div>
-                <DialogFooter className="sm:justify-start">
-                    <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                            Close
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+    <>
+        <AutoForm
+      schema={schemaProvider}
+      onSubmit={(data: any, form: any) => {
+        console.log(` autoform submit: [${data}]`);
+      }}
+      withSubmit
+    />
+    </>
     )
 }
-
 
 /**
  * Utilities for ts-to-zod usage

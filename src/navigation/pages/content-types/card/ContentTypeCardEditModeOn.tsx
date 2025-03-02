@@ -2,7 +2,7 @@
  * External imports
  */
 import { KeyRound as LuKeyRound, SaveAll as LuSaveAll, BugIcon as LuErrorIcon, CheckIcon as LuSuccessIcon, BellIcon, Plus as LuPlus } from 'lucide-react';
-import { TargetedEvent } from 'preact/compat';
+import { JSX, TargetedEvent } from 'preact/compat';
 import { useContext, useState, useEffect } from 'preact/hooks';
 import { toast } from 'sonner';
 /**

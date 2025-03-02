@@ -1,7 +1,7 @@
 import { Router, Route } from "preact-router"
 import Home from "./pages/Home"
 import Test from "./pages/test"
-import TestAutoForm from "./pages/test.autoform"
+import UpdatePestoContentTypeCard from "./pages/test.autoform"
 
 import { PestoProjectList } from './pages/projects/list.tsx';
 import { PestoProjectDetail } from './pages/projects/details.tsx';
@@ -18,7 +18,7 @@ export default function Layout(/*{ children }: { children: React.ReactNode }*/) 
         <>
             <Router>
             <Route path="/tests" component={Test} />
-            <Route path="/tests-autoform" component={TestAutoForm} />
+            <Route path="/tests-autoform" component={UpdatePestoContentTypeCard} />
                 <Route path="/" component={Home} />
                 {
                     /**
