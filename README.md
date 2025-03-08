@@ -1,5 +1,17 @@
 # Preact TS + Shadcn UI + Tailwindcss v4
 
+## Start it
+
+First, start the Pesto API, and then run:
+
+```bash
+export PESTO_API_HOST="api.pesto.io"
+export PESTO_API_PORT="3000"
+# export PESTO_API_HTTP_SCHEME="https"
+export PESTO_API_HTTP_SCHEME="http"
+pnpm dev
+```
+
 ## Spin up
 
 * I followed official docuementation of vite and tailwindcss to spin up a `vite` `preact-ts` project, with tailwindcss v4 setup.
