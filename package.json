@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@autoform/zod": "^2.1.0",
+    "@pesto-io/zod-reify": "0.0.1-alpha-commit-8da63285bfe89c3cb7ca130ad20272290178d42f",
     "@radix-ui/react-avatar": "^1.1.3",
     "@radix-ui/react-collapsible": "^1.1.3",
     "@radix-ui/react-dialog": "^1.1.6",

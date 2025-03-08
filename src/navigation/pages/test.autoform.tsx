@@ -5,7 +5,19 @@ import z from 'zod';
  * following https://autoform.vantezzen.io/docs/react/getting-started
  */
 import { AutoForm } from "@/components/ui/autoform"
-import { ZodProvider } from "@autoform/zod";
+import { ZodObjectOrWrapped, ZodProvider } from "@autoform/zod";
+
+
+/**
+ * zod-reify
+ */
+import { reify } from '@pesto-io/zod-reify'
+/**
+ * const zodSchemaParser = new reifier.ZodSchemaReifier(
+ *   testCase.zodSchemaAsText
+ * );
+ */
+
 /*
 import { Copy, Plus as LuPlus, SaveAll as LuSaveAll } from "lucide-react"
 
@@ -16,7 +28,7 @@ import { Label } from "@/components/ui/label"
 */
 // import { ContentTypeCard } from "./content-types/card/ContentTypeCard";
 // import { PestoContentTypeContextProvider } from "./content-types/ContentTypeContext";
-import React, { useContext, useEffect } from "preact/compat";
+import React, { useContext, useEffect, useState } from "preact/compat";
 import { useConvertTsToZodMutation, useUpdateContentTypeMutation } from "@/api/endpoints";
 import { PestoContentTypeContext } from "./content-types/ContentTypeContext";
 
@@ -31,6 +43,10 @@ import { PestoContentTypeContext } from "./content-types/ContentTypeContext";
 export async function UpdatePestoContentTypeCard(): Promise<React.JSX.Element> {
     
     const pestoContentTypeContext = useContext(PestoContentTypeContext)
+    const [reifiedSchema, setReifiedSchema] = useState<ZodObjectOrWrapped>(z.object({}));
+    const [schemaProvider, setSchemaProvider] = useState<ZodProvider<ZodObjectOrWrapped>>();
+
+    // const schemaProvider = new ZodProvider(zodSchemaOfTheContentType);
     if (!pestoContentTypeContext) {
       throw new Error(`[ContentTypeCard] - [pestoContentTypeContext] is null or undefined!`)
     }
@@ -75,6 +91,11 @@ export async function UpdatePestoContentTypeCard(): Promise<React.JSX.Element> {
         if(conversionToZodSuccess) {
             // frontmatterZodSchemaAsStr.data?.schema
             console.log(`The typescript interface frontmatter definition was successfully converted to the following zod schema:  [${tsInterfaceConvertedToZod.schema}]`)
+            const zodSchemaParser = new reify.ZodSchemaReifier(
+              tsInterfaceConvertedToZod.schema
+            );
+            setReifiedSchema(zodSchemaParser.reify());
+            setSchemaProvider(new ZodProvider(reifiedSchema))
         }
         if(conversionToZodError) {
             console.log(`An Error occured converting ts interface to zod schema // conversionToZodError has just changed its value to: [${conversionToZodError}]`)
@@ -101,7 +122,7 @@ export async function UpdatePestoContentTypeCard(): Promise<React.JSX.Element> {
         createdAt: z.string(),
     });
 
-    const schemaProvider = new ZodProvider(zodSchemaOfTheContentType);
+    // const schemaProvider = new ZodProvider(zodSchemaOfTheContentType);
     return (
     <>
         <AutoForm
