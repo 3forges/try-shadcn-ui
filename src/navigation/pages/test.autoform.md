@@ -18,3 +18,33 @@ All in all, I will try another approach:
 * The big difference that I will ther have, is that It will be much easier, to "reify", the JSON schema, using `JSON.parse(receivedFromAPI)`
 * <https://github.com/rjsf-team/react-jsonschema-form>
 * <https://rjsf-team.github.io/react-jsonschema-form/docs/quickstart#form-initialization>
+
+
+Maybe I can still use autoform:
+* I receive the JSON Schema from the API
+* and I instantiate a zod schema fromt he JSON Schema [like this](https://www.npmjs.com/package/json-schema-to-zod): 
+
+```Ts
+// https://www.npmjs.com/package/json-schema-to-zod
+import { jsonSchemaToZod } from "json-schema-to-zod";
+
+const myObject = {
+  type: "object",
+  properties: {
+    hello: {
+      type: "string",
+    },
+  },
+};
+
+const module = jsonSchemaToZod(myObject, { module: "esm" });
+
+// `type` can be either a string or - outside of the CLI - a boolean. If its `true`, the name of the type will be the name of the schema with a capitalized first letter.
+const moduleWithType = jsonSchemaToZod(myObject, { name: "mySchema", module: "esm", type: true });
+
+const cjs = jsonSchemaToZod(myObject, { module: "cjs", name: "mySchema" });
+
+const justTheSchema = jsonSchemaToZod(myObject);
+```
+
+Never the less, I think this package will have an issue while running in browser, we will see.
