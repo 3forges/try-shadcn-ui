@@ -18,8 +18,8 @@ importers:
         specifier: ^4.1.3
         version: 4.1.3(react-hook-form@7.54.2(@preact/compat@18.3.1(preact@10.26.2)))
       '@pesto-io/zod-reify':
-        specifier: 0.0.1-alpha-commit-8da63285bfe89c3cb7ca130ad20272290178d42f
-        version: 0.0.1-alpha-commit-8da63285bfe89c3cb7ca130ad20272290178d42f
+        specifier: 0.0.1-alpha-commit-c6b6c047524d9ef939ac73d86e0c5c809bba51a2
+        version: 0.0.1-alpha-commit-c6b6c047524d9ef939ac73d86e0c5c809bba51a2
       '@radix-ui/react-avatar':
         specifier: ^1.1.3
         version: 1.1.3(@preact/compat@18.3.1(preact@10.26.2))(@preact/compat@18.3.1(preact@10.26.2))(@types/react@19.0.10)
@@ -162,9 +162,6 @@ importers:
       '@types/base-64':
         specifier: ^1.0.2
         version: 1.0.2
-      '@types/node':
-        specifier: ^22.13.4
-        version: 22.13.5
       '@types/utf8':
         specifier: ^3.0.3
         version: 3.0.3
@@ -505,8 +502,8 @@ packages:
     resolution: {integrity: sha512-OWv4Va6bERxIhrYcnUGzyhGRqktc64lJO6cZ3UwkzJDpfR8ZrbCxRfKRBBah1i8kzUlOAeAXnpbMBMah3skKwA==}
     engines: {node: '>=18.0.0'}
 
-  '@pesto-io/zod-reify@0.0.1-alpha-commit-8da63285bfe89c3cb7ca130ad20272290178d42f':
-    resolution: {integrity: sha512-z+s/iwOq7tYQrN7mguMbB5imDtbIJm0raAGZHmxq6qPeTg7WW65nejfwO7HXFhBGwTWUoyDc6uhwypoxhs36sA==}
+  '@pesto-io/zod-reify@0.0.1-alpha-commit-c6b6c047524d9ef939ac73d86e0c5c809bba51a2':
+    resolution: {integrity: sha512-ZJVaNx7HjQepbjxNy4hfM3NbS1ZC4lUTM30U21g4hfdo/xMzcSMOXP6tIml2CpQeVOEU5gRS44jacjUFjBpkQw==}
     engines: {node: ~20.12.0, pnpm: ~9.11.0}
 
   '@preact/compat@18.3.1':
@@ -3104,7 +3101,7 @@ snapshots:
       wordwrap: 1.0.0
       wrap-ansi: 7.0.0
 
-  '@pesto-io/zod-reify@0.0.1-alpha-commit-8da63285bfe89c3cb7ca130ad20272290178d42f':
+  '@pesto-io/zod-reify@0.0.1-alpha-commit-c6b6c047524d9ef939ac73d86e0c5c809bba51a2':
     dependencies:
       redaxios: 0.5.1
       ts-morph: 23.0.0
@@ -3897,6 +3894,7 @@ snapshots:
   '@types/node@22.13.5':
     dependencies:
       undici-types: 6.20.0
+    optional: true
 
   '@types/prismjs@1.26.5': {}
 
@@ -5478,7 +5476,8 @@ snapshots:
 
   typescript@5.7.3: {}
 
-  undici-types@6.20.0: {}
+  undici-types@6.20.0:
+    optional: true
 
   unified@11.0.5:
     dependencies:

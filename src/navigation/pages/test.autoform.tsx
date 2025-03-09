@@ -163,7 +163,7 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
   });
     
     const [reifiedSchema, setReifiedSchema] = useState<ZodObjectOrWrapped>(z.object({}));
-    const [schemaProvider, setSchemaProvider] = useState<ZodProvider<ZodObjectOrWrapped>>();
+    const [schemaProvider, setSchemaProvider] = useState<ZodProvider<ZodObjectOrWrapped>>(new ZodProvider(z.object({})));
 
 
     
@@ -215,7 +215,9 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
             // frontmatterZodSchemaAsStr.data?.schema
             console.log(`The typescript interface frontmatter definition was successfully converted to the following zod schema:  [${tsInterfaceConvertedToZod.schema}]`)
             const zodSchemaParser = new reify.ZodSchemaReifier(
-              tsInterfaceConvertedToZod.schema
+              tsInterfaceConvertedToZod.schema.replace(`import { z } from "zod";`, ``),
+              undefined,
+              true,
             );
             setReifiedSchema(zodSchemaParser.reify());
             setSchemaProvider(new ZodProvider(z.object({
