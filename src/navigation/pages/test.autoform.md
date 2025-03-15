@@ -19,33 +19,9 @@ All in all, I will try another approach:
 * <https://github.com/rjsf-team/react-jsonschema-form>
 * <https://rjsf-team.github.io/react-jsonschema-form/docs/quickstart#form-initialization>
 
+## Ok it works now with JSON Schema Form generation
 
-Maybe I can still use autoform:
-* I receive the JSON Schema from the API
-* and I instantiate a zod schema fromt he JSON Schema [like this](https://www.npmjs.com/package/json-schema-to-zod): 
+But now what I have to do, it to do the ShadCN UI integration:
 
-```Ts
-// https://www.npmjs.com/package/json-schema-to-zod
-import { jsonSchemaToZod } from "json-schema-to-zod";
-
-const myObject = {
-  type: "object",
-  properties: {
-    hello: {
-      type: "string",
-    },
-  },
-};
-
-const module = jsonSchemaToZod(myObject, { module: "esm" });
-
-// `type` can be either a string or - outside of the CLI - a boolean. If its `true`, the name of the type will be the name of the schema with a capitalized first letter.
-const moduleWithType = jsonSchemaToZod(myObject, { name: "mySchema", module: "esm", type: true });
-
-const cjs = jsonSchemaToZod(myObject, { module: "cjs", name: "mySchema" });
-
-const justTheSchema = jsonSchemaToZod(myObject); // unfortunately, the jsonSchemaToZod returns only a string, so we are  back at the problem of reifying a zod schema from source code, hich pretty much is being a javascript runtime.
-
-```
-
-Never the less, I think this package will have an issue while running in browser, we will see.
+* I found a good example here: <https://github.com/tuanphung2308/next-rjsf-form-builder/tree/main/components/rjsf>
+* It's an open issue: <https://github.com/rjsf-team/react-jsonschema-form/issues/4213>
