@@ -562,6 +562,41 @@ export const pestoApi = createApi({
           },
         };
       },
+
+    }),
+    //
+    // ConvertTsToJSonSchema
+    /*************************************
+     * -----------------------------------
+     * -----------------------------------
+     * TS TO ZOD
+     * -----------------------------------
+     * -----------------------------------
+     *************************************/
+    convertTsToJSonSchema: build.mutation<
+      { schema: string },
+      {
+        v_tsInterfaceAsStr: string;
+      }
+    >({
+      query({ 
+        v_tsInterfaceAsStr,
+      }) {
+        console.log(` RTK QUERY - I am the [convertTsToJSonSchema]. I will convert to zod schema, the below typescript interface: `, {
+          tsInterfaceAsStr: `${v_tsInterfaceAsStr}`,
+        });
+        return {
+          window: null, // Can only be null. Used to disassociate request from any Window.
+          url: "ts-to-jsonschema",
+          /* params: {
+                limit: 10
+              }, */
+          method: "POST",
+          body: {
+            tsInterfaceAsStr: `${v_tsInterfaceAsStr}`,
+          },
+        };
+      },
     }),
   }),
 });
@@ -589,4 +624,8 @@ export const {
    * TS TO ZOD
    */
   useConvertTsToZodMutation,
+  /**
+   * TS TO JSON SCHEMA
+   */
+  useConvertTsToJSonSchemaMutation,
 } = pestoApi;
