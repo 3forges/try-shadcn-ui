@@ -23,5 +23,8 @@ All in all, I will try another approach:
 
 But now what I have to do, it to do the ShadCN UI integration:
 
-* I found a good example here: <https://github.com/tuanphung2308/next-rjsf-form-builder/tree/main/components/rjsf>
+* I found a good example here:
+
+  * <https://github.com/tuanphung2308/next-rjsf-form-builder/tree/main/components/rjsf>
+  * he most likely followed <https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-widgets-fields/>
 * It's an open issue: <https://github.com/rjsf-team/react-jsonschema-form/issues/4213>
