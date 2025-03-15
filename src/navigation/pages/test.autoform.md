@@ -44,7 +44,8 @@ const moduleWithType = jsonSchemaToZod(myObject, { name: "mySchema", module: "es
 
 const cjs = jsonSchemaToZod(myObject, { module: "cjs", name: "mySchema" });
 
-const justTheSchema = jsonSchemaToZod(myObject);
+const justTheSchema = jsonSchemaToZod(myObject); // unfortunately, the jsonSchemaToZod returns only a string, so we are  back at the problem of reifying a zod schema from source code, hich pretty much is being a javascript runtime.
+
 ```
 
 Never the less, I think this package will have an issue while running in browser, we will see.

@@ -8,9 +8,9 @@ import { PestoProjectApiEntity } from "../../api/entities/PestoProjectApiEntity"
 import { PestoContentTypeApiEntity } from "./../entities/PestoContentTypeApiEntity";
 
 const config = {
-  PESTO_API_PORT: process.env.PESTO_API_PORT || `3000`,
-  PESTO_API_HOST: process.env.PESTO_API_HOST || `localhost`,
-  PESTO_API_HTTP_SCHEME: process.env.PESTO_API_HTTP_SCHEME || `http`,
+  PESTO_API_PORT: process.env.PESTO_API_PORT || `3000`, // import.meta.env.VITE_PESTO_API_PORT
+  PESTO_API_HOST: process.env.PESTO_API_HOST || `localhost`, // import.meta.env.VITE_PESTO_API_HOST
+  PESTO_API_HTTP_SCHEME: process.env.PESTO_API_HTTP_SCHEME || `http`, // import.meta.env.VITE_PESTO_API_HTTP_SCHEME
 };
 // const PESTO_API_PORT = process.env.PESTO_API_PORT || "3000"
 const PESTO_API_PORT = config.PESTO_API_PORT;

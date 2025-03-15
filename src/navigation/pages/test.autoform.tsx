@@ -1,5 +1,9 @@
 import { JSX } from "preact/jsx-runtime";
-import { generate } from "ts-to-zod";
+//import { generate } from "ts-to-zod";
+import Form from '@rjsf/core';
+import { RJSFSchema } from '@rjsf/utils';
+import validator from '@rjsf/validator-ajv8';
+
 import z from 'zod';
 /**
  * ShadCN UI Components
@@ -14,7 +18,7 @@ import { ZodObjectOrWrapped, ZodProvider } from "@autoform/zod";
 /**
  * zod-reify
  */
-import { reify } from '@pesto-io/zod-reify'
+//import { reify } from '@pesto-io/zod-reify'
 /**
  * const zodSchemaParser = new reifier.ZodSchemaReifier(
  *   testCase.zodSchemaAsText
@@ -32,7 +36,7 @@ import { Label } from "@/components/ui/label"
 // import { ContentTypeCard } from "./content-types/card/ContentTypeCard";
 // import { PestoContentTypeContextProvider } from "./content-types/ContentTypeContext";
 import React, { useContext, useEffect, useState } from "preact/compat";
-import { useContentTypeDetailQuery, useContentTypeListQuery, useConvertTsToZodMutation, useUpdateContentTypeMutation } from "@/api/endpoints";
+import { useContentTypeDetailQuery, useContentTypeListQuery, useConvertTsToJSonSchemaMutation, useConvertTsToZodMutation, useUpdateContentTypeMutation } from "@/api/endpoints";
 import { PestoContentTypeContext } from "./content-types/ContentTypeContext";
 import { Button } from "react-day-picker";
 import { Button as ShadCnBtn } from "@/components/ui/button"
@@ -162,8 +166,8 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
       _id: `${content_type_id_param}`,
   });
     
-    const [reifiedSchema, setReifiedSchema] = useState<ZodObjectOrWrapped>(z.object({}));
-    const [schemaProvider, setSchemaProvider] = useState<ZodProvider<ZodObjectOrWrapped>>(new ZodProvider(z.object({})));
+    const [reifiedSchema, setReifiedSchema] = useState<RJSFSchema>({});
+
 
 
     
@@ -184,17 +188,17 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
      * ***********************************
      */
     const [
-        convertTsToZod,
+        convertTsToJSonSchema,
         {
-            data: tsInterfaceConvertedToZod,
-            isLoading: convertingToZod,
+            data: tsInterfaceConvertedToJSonSchema,
+            isLoading: convertingToJSonSchema,
             // isUninitialized,
-            isSuccess: conversionToZodSuccess,
-            isError: conversionToZodError
+            isSuccess: conversionToJSonSchemaSuccess,
+            isError: conversionToJSonSchemaError
             }
             /*
             */
-    ] = useConvertTsToZodMutation();
+    ] = useConvertTsToJSonSchemaMutation();
     /**
      * zodSchemaOfTheFrontmatter will 
      * be the Zod Schema of the converted
@@ -203,7 +207,7 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
 
     useEffect(() => {
       if (contentTypeDetailQueryIsSuccess) {
-        convertTsToZod({
+        convertTsToJSonSchema({
             v_tsInterfaceAsStr: contentTypeDetail.frontmatter_definition
         })
       } else {
@@ -211,32 +215,39 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
       }
     }, [contentTypeDetailQueryIsSuccess])
     useEffect(() => {
-        if(contentTypeDetailQueryIsSuccess && conversionToZodSuccess) {
+        if(contentTypeDetailQueryIsSuccess && conversionToJSonSchemaSuccess) {
             // frontmatterZodSchemaAsStr.data?.schema
-            console.log(`The typescript interface frontmatter definition was successfully converted to the following zod schema:  [${tsInterfaceConvertedToZod.schema}]`)
-            const zodSchemaParser = new reify.ZodSchemaReifier(
-              tsInterfaceConvertedToZod.schema.replace(`import { z } from "zod";`, ``),
-              undefined,
-              true,
-            );
-            setReifiedSchema(zodSchemaParser.reify());
-            setSchemaProvider(new ZodProvider(z.object({
-              _id: z.number(),
-              name: z.string(),
-              project_id: z.string(),
-              description: z.string(),
-              frontmatter_definition: reifiedSchema
-            })))
+            console.log(`The typescript interface frontmatter definition was successfully converted to the following json schema:  [${JSON.stringify(tsInterfaceConvertedToJSonSchema.schema, null, 2)}]`)
+            // const newlyReifiedSchema = jsonSchemaToZod(JSON.parse(tsInterfaceConvertedToJSonSchema.schema), { name: "mySchema", module: "esm", type: true });// unfortunately, jsonSchemaToZod also returns a string, not a zod Object.
+            let fm_def_json_schema = JSON.parse(JSON.stringify(tsInterfaceConvertedToJSonSchema.schema, null, 2));
+            // delete fm_def_json_schema["$ref"]
+            const tsInterfaceName = contentTypeDetail.frontmatter_definition.substring(0, contentTypeDetail.frontmatter_definition.indexOf('{') + 1).replace(`export`, ``).replace(`interface`, ``).trim();
+            const formSchema: RJSFSchema = {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                },
+                project_id: {
+                  type: 'string',
+                },
+                description: {
+                  type: 'string',
+                },
+                frontmatter_definition: fm_def_json_schema["definitions"][`${tsInterfaceName}`],
+              },
+            };
+            setReifiedSchema(formSchema);
         } else {
-          console.log(` [useEffect] [contentTypeDetailQueryIsSuccess, conversionToZodSuccess, conversionToZodError, convertingToZod] : contentTypeDetailQueryIsSuccess=[${contentTypeDetailQueryIsSuccess}], conversionToZodSuccess=[${conversionToZodSuccess}]`)
+          console.log(` [useEffect] [contentTypeDetailQueryIsSuccess, conversionToJSonSchemaSuccess, conversionToJSonSchemaError, convertingToJSonSchema] : contentTypeDetailQueryIsSuccess=[${contentTypeDetailQueryIsSuccess}], conversionToJSonSchemaSuccess=[${conversionToJSonSchemaSuccess}]`)
         }
-        if(conversionToZodError) {
-            console.log(`An Error occured converting ts interface to zod schema // conversionToZodError has just changed its value to: [${conversionToZodError}]`)
+        if(conversionToJSonSchemaError) {
+            console.log(`An Error occured converting ts interface to zod schema // conversionToJSonSchemaError has just changed its value to: [${conversionToJSonSchemaError}]`)
         }
-        if(convertingToZod) {
-            console.log(`convertingToZod (loading conversion to zod) has just changed its value to: [${convertingToZod}]`)
+        if(convertingToJSonSchema) {
+            console.log(`convertingToJSonSchema (loading conversion to zod) has just changed its value to: [${convertingToJSonSchema}]`)
         }
-    }, [contentTypeDetailQueryIsSuccess, conversionToZodSuccess, conversionToZodError, convertingToZod])
+    }, [contentTypeDetailQueryIsSuccess, conversionToJSonSchemaSuccess, conversionToJSonSchemaError, convertingToJSonSchema])
 
     
     let zodSchemaOfTheFrontmatter = z.object({
@@ -287,13 +298,8 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
             <div className="p-2">
 
                 {contentTypeDetailQueryIsSuccess ? (
-                  <AutoForm
-                  schema={schemaProvider}
-                  onSubmit={(data: any, form: any) => {
-                    console.log(` autoform submit: [${data}]`);
-                  }}
-                  withSubmit
-                />
+                  <Form schema={reifiedSchema} validator={validator} />
+
 
                 ) : (
                     <span id="badge-dismiss-yellow" class="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-yellow-800 bg-yellow-100 rounded dark:bg-yellow-900 dark:text-yellow-300">
@@ -331,47 +337,3 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
  * make sure zod-reify is able to work in browser
  * 
  */
-
-export class TsToZod {
-    public static convert = (tsInterfaceAsText: string): any => {
-       /**
-        * https://github.com/ritz078/transform/blob/c6e0748bad06a31373e2a8324a764e9467646742/pages/api/typescript-to-zod.ts#L17
-        */
-       
-       // `tmp.interface.${Math.floor(Math.random() * 10000)}.ts`;
-       // https://www.dolthub.com/blog/2021-12-15-client-side-storage-with-react/#deciding-to-use-an-outside-library
-       // how to avoid having to create a local file with the typescript interface code inside?
-      
-      
-       try {
-        const schemaGenerator = generate({
-          sourceText: `export interface whatever {
-                name: string,
-                surname?: string,
-                date_of_birth: date
-            }`,
-          keepComments: false,
-          skipParseJSDoc: true
-        });
-    
-        schemaGenerator.transformedSourceText
-        console.log(`JBL DEBUG: schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`)
-        
-        schemaGenerator.transformedSourceText
-        console.log(`JBL DEBUG: schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`)
-        
-        const schema = schemaGenerator.getZodSchemasFile(`./content/astro.config.ts`);
-        console.log(`JBL DEBUG: schemaGenerator.getZodSchemasFile returns [${schema}]`)
-        const formattedSchema = schema
-          .split(/\r?\n/)
-          .slice(1)
-          .join("\n");
-        console.log(`JBL DEBUG: formattedSchema = [${formattedSchema}]`)
-        
-        return formattedSchema;
-      } catch (e) {
-        // throw new Error(`${e.message}`)
-        throw new Error(`An error occured `)
-      }
-    }
-}
