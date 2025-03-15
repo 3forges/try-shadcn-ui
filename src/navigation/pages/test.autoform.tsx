@@ -220,8 +220,13 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
             console.log(`The typescript interface frontmatter definition was successfully converted to the following json schema:  [${JSON.stringify(tsInterfaceConvertedToJSonSchema.schema, null, 2)}]`)
             // const newlyReifiedSchema = jsonSchemaToZod(JSON.parse(tsInterfaceConvertedToJSonSchema.schema), { name: "mySchema", module: "esm", type: true });// unfortunately, jsonSchemaToZod also returns a string, not a zod Object.
             let fm_def_json_schema = JSON.parse(JSON.stringify(tsInterfaceConvertedToJSonSchema.schema, null, 2));
+            const tsInterfaceName = contentTypeDetail.frontmatter_definition.substring(0, contentTypeDetail.frontmatter_definition.indexOf('{') + 1).replace(`export`, ``).replace(`interface`, ``).replace(`{`, ``).trim();
+            fm_def_json_schema = fm_def_json_schema["definitions"][`${tsInterfaceName}`]
+            console.log(`tsInterfaceName is :  [${tsInterfaceName}]`)
+            console.log(`tsInterfaceName is :  [${tsInterfaceName}]`)
+            console.log(`fm_def_json_schema is :  [${JSON.stringify({ fm_def_json_schema: fm_def_json_schema}, null, 2)}]`)
+            
             // delete fm_def_json_schema["$ref"]
-            const tsInterfaceName = contentTypeDetail.frontmatter_definition.substring(0, contentTypeDetail.frontmatter_definition.indexOf('{') + 1).replace(`export`, ``).replace(`interface`, ``).trim();
             const formSchema: RJSFSchema = {
               type: 'object',
               properties: {
@@ -234,7 +239,7 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
                 description: {
                   type: 'string',
                 },
-                frontmatter_definition: fm_def_json_schema["definitions"][`${tsInterfaceName}`],
+                frontmatter_definition: fm_def_json_schema,
               },
             };
             setReifiedSchema(formSchema);
