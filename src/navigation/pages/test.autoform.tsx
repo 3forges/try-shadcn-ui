@@ -1,6 +1,7 @@
 import { JSX } from "preact/jsx-runtime";
 //import { generate } from "ts-to-zod";
-import Form from '@rjsf/core';
+// import Form from '@rjsf/core';
+import TailwindForm from "@/components/rjsf"
 import { RJSFSchema } from '@rjsf/utils';
 import validator from '@rjsf/validator-ajv8';
 
@@ -303,7 +304,7 @@ export function UpdatePestoContentTypeCard({ content_type_id_param }: UpdatePest
             <div className="p-2">
 
                 {contentTypeDetailQueryIsSuccess ? (
-                  <Form schema={reifiedSchema} validator={validator} />
+                  <TailwindForm schema={reifiedSchema} validator={validator} />
 
 
                 ) : (
